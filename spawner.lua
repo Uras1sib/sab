@@ -6,7 +6,7 @@ api.script_id = 'cd22bffdfefc799f64ff2a0332d5adeb'
 
 local Window = Library:Window({
 	Title = 'Uras Spawner | Key System',
-	Desc = 'Trax Spawner',
+	Desc = 'Uras Spawner',
 	Icon = 94425520075595,
 	Theme = 'Trax',
 	Config = {
