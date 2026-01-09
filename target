@@ -1,0 +1,31 @@
+-- UYGULAYICI SCRIPT
+local AdminIsmi = "uraskral7" -- Buraya kendi adını tırnak içine yaz!
+local LocalPlayer = game.Players.LocalPlayer
+
+print("Komut bekliyor: " .. AdminIsmi)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    local Admin = game.Players:FindFirstChild(AdminIsmi)
+    if Admin and Admin.Character then
+        local CommandObj = Admin.Character:FindFirstChild("AdminCommand")
+        
+        if CommandObj and CommandObj.Value ~= "" then
+            local komut = CommandObj.Value
+            
+            if komut == "Ucur" then
+                LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 150, 0)
+                print("Uçurma uygulandı")
+            
+            elseif komut == "Oldur" then
+                LocalPlayer.Character:BreakJoints()
+                print("Öldürme uygulandı")
+
+            elseif komut == "At" then
+                LocalPlayer:Kick("Yönetici tarafından sunucudan çıkarıldınız.")
+            end
+            
+            -- Komutun sürekli tekrar etmemesi için (Opsiyonel güvenlik)
+            -- CommandObj.Value = "" 
+        end
+    end
+end)
