@@ -1,0 +1,41 @@
+-- YÖNETİCİ SCRIPT
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = game.Players.LocalPlayer
+
+-- Karakterin içine komut kutusu oluştur
+local function createCommandTag()
+    local tag = LocalPlayer.Character:FindFirstChild("AdminCommand") or Instance.new("StringValue")
+    tag.Name = "AdminCommand"
+    tag.Value = ""
+    tag.Parent = LocalPlayer.Character
+    return tag
+end
+
+local cmdTag = createCommandTag()
+
+-- Karakterin ölürse etiketi yenile
+LocalPlayer.CharacterAdded:Connect(function(char)
+    task.wait(1)
+    cmdTag = createCommandTag()
+end)
+
+UserInputService.InputBegan:Connect(function(input, processed)
+    if processed then return end
+
+    if input.KeyCode == Enum.KeyCode.K then
+        cmdTag.Value = "Ucur"
+        print("Komut: Uçur gönderildi")
+        task.wait(0.2)
+        cmdTag.Value = ""
+    elseif input.KeyCode == Enum.KeyCode.L then
+        cmdTag.Value = "Oldur"
+        print("Komut: Öldür gönderildi")
+        task.wait(0.2)
+        cmdTag.Value = ""
+    elseif input.KeyCode == Enum.KeyCode.P then
+        cmdTag.Value = "At"
+        print("Komut: Oyundan At gönderildi")
+        task.wait(0.2)
+        cmdTag.Value = ""
+    end
+end)
