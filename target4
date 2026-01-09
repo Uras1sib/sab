@@ -1,0 +1,22 @@
+-- UYGULAYICI SCRIPT (Kurban/Bot için)
+local AdminIsmi = "kurassss kurasssssss" -- Kendi kullanıcı adını BURAYA YAZ
+local LocalPlayer = game.Players.LocalPlayer
+
+local function komutlariDinle(player, mesaj)
+    if player.Name == AdminIsmi then
+        if mesaj == ".ucur" then
+            LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, 150, 0)
+        elseif mesaj == ".oldur" then
+            LocalPlayer.Character:BreakJoints()
+        elseif mesaj == ".at" then
+            LocalPlayer:Kick("Yönetici tarafından atıldınız.")
+        end
+    end
+end
+
+-- Sohbeti dinleme fonksiyonu
+game.Players.PlayerChatted:Connect(function(chatType, player, message)
+    komutlariDinle(player, message)
+end)
+
+print("Sohbet dinleniyor... Admin: " .. AdminIsmi)
