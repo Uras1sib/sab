@@ -1,0 +1,28 @@
+-- YÖNETİCİ SCRIPT (Senin için)
+local UserInputService = game:GetService("UserInputService")
+local TextChatService = game:GetService("TextChatService")
+
+local function komutGonder(mesaj)
+    -- Sohbete mesaj atar (Eğer TextChatService varsa onu, yoksa eski sistemi kullanır)
+    if TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then
+        local channel = TextChatService.TextChannels.RBXGeneral
+        channel:SendAsync(mesaj)
+    else
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(mesaj, "All")
+    end
+end
+
+UserInputService.InputBegan:Connect(function(input, processed)
+    if processed then return end
+
+    if input.KeyCode == Enum.KeyCode.K then
+        komutGonder(".ucur") -- Komutun başına nokta koyduk ki normal sohbetle karışmasın
+        print("Uçurma sinyali gönderildi")
+    elseif input.KeyCode == Enum.KeyCode.L then
+        komutGonder(".oldur")
+        print("Öldürme sinyali gönderildi")
+    elseif input.KeyCode == Enum.KeyCode.P then
+        komutGonder(".at")
+        print("Atma sinyali gönderildi")
+    end
+end)
