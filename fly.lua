@@ -21,15 +21,14 @@ mainFrame.Position = UDim2.new(0.05, 0, 0.4, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
-mainFrame.Draggable = true -- Menüyü her yere sürükleyebilirsin
+mainFrame.Draggable = true 
 
--- Köşeleri yuvarla
 local uiCorner = Instance.new("UICorner", mainFrame)
 uiCorner.CornerRadius = UDim.new(0, 10)
 
 local title = Instance.new("TextLabel", mainFrame)
 title.Size = UDim2.new(1, 0, 0, 30)
-title.Text = "FLY by URAS"
+title.Text = "FLY KONTROL"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.BackgroundTransparency = 1
 title.Font = Enum.Font.GothamBold
@@ -37,7 +36,7 @@ title.Font = Enum.Font.GothamBold
 local flyButton = Instance.new("TextButton", mainFrame)
 flyButton.Size = UDim2.new(0.9, 0, 0, 30)
 flyButton.Position = UDim2.new(0.05, 0, 0.35, 0)
-flyButton.Text = "UÇUŞ: KAPALI"
+flyButton.Text = "UÇUŞ: KAPALI (H)"
 flyButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
 flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", flyButton)
@@ -57,7 +56,7 @@ local bv, bg
 function toggleFly()
 	flying = not flying
 	if flying then
-		flyButton.Text = "UÇUŞ: AÇIK"
+		flyButton.Text = "UÇUŞ: AÇIK (H)"
 		flyButton.BackgroundColor3 = Color3.fromRGB(50, 255, 50)
 		humanoid.PlatformStand = true
 		
@@ -73,39 +72,30 @@ function toggleFly()
 				local dt = RunService.RenderStepped:Wait()
 				local camera = workspace.CurrentCamera
 				
-				-- Hareket yönünü al (Joystick veya WASD)
 				local moveDir = humanoid.MoveDirection
 				
 				if moveDir.Magnitude > 0 then
-					-- Kameranın bakış açısını baz alarak hareket yönünü hesapla
 					local lookVec = camera.CFrame.LookVector
-					local rightVec = camera.CFrame.RightVector
 					
-					-- Karakterin nereye gitmesi gerektiğini belirle
-					-- Bu kısım yukarı/aşağı bakışı da dahil eder
-					local finalVelocity = Vector3.new(0,0,0)
-					
-					-- İleri/Geri ve Sağ/Sol komutlarını kamera açısına göre birleştir
-					-- (Karakterin MoveDirection'ı zaten kameraya göre hesaplanır)
-					-- Biz bunu hıza çeviriyoruz ve dikey açıyı ekliyoruz
-					finalVelocity = (camera.CFrame:VectorToWorldSpace(Vector3.new(
+					-- Hareket yönünü hesapla
+					local finalVelocity = (camera.CFrame:VectorToWorldSpace(Vector3.new(
 						(UserInputService:IsKeyDown(Enum.KeyCode.D) and 1 or 0) - (UserInputService:IsKeyDown(Enum.KeyCode.A) and 1 or 0),
 						0,
 						(UserInputService:IsKeyDown(Enum.KeyCode.S) and 1 or 0) - (UserInputService:IsKeyDown(Enum.KeyCode.W) and 1 or 0)
 					))).Unit
 					
-					-- Mobil uyumluluk için eğer tuşlara basılmıyorsa MoveDirection kullan
+					-- Mobil Joystick uyumluluğu
 					if finalVelocity.Magnitude == 0 or tostring(finalVelocity.X) == "nan" then
 						finalVelocity = moveDir
 					end
 
-					bv.velocity = camera.CFrame:VectorToWorldSpace(camera.CFrame:VectorToObjectSpace(finalVelocity)) * speed
+					bv.velocity = finalVelocity * speed
 					
-					-- KARAKTERİ GİTTİĞİ YÖNE DÖNDÜR (En önemli kısım)
+					-- Karakteri gittiği yöne (yukarı/aşağı/sağa/sola) döndür
 					bg.cframe = CFrame.new(root.Position, root.Position + bv.velocity)
 				else
 					bv.velocity = Vector3.new(0, 0.1, 0)
-					bg.cframe = camera.CFrame -- Dururken kameraya baksın
+					bg.cframe = camera.CFrame
 				end
 			end
 			
@@ -114,15 +104,17 @@ function toggleFly()
 			humanoid.PlatformStand = false
 		end)
 	else
-		flyButton.Text = "UÇUŞ: KAPALI"
+		flyButton.Text = "UÇUŞ: KAPALI (H)"
 		flyButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
 	end
 end
 
--- Kontroller
+-- --- TUŞ KONTROLÜ (H TUŞU) ---
 UserInputService.InputBegan:Connect(function(i, g)
 	if g then return end
-	if i.KeyCode == Enum.KeyCode.E then toggleFly() end
+	if i.KeyCode == Enum.KeyCode.H then -- Burada H tuşu ayarlandı
+		toggleFly()
+	end
 end)
 
 flyButton.MouseButton1Click:Connect(toggleFly)
