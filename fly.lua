@@ -24,7 +24,7 @@ Instance.new("UICorner", mainFrame)
 
 local title = Instance.new("TextLabel", mainFrame)
 title.Size = UDim2.new(1, 0, 0, 30)
-title.Text = "FLY KONTROL"
+title.Text = "FLY by Uras"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.BackgroundTransparency = 1
 title.Font = Enum.Font.GothamBold
