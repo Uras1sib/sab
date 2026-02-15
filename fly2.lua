@@ -28,7 +28,7 @@ local function playIntro()
 end
 task.spawn(playIntro)
 
--- --- GUI ---
+-- --- GUI TASARIMI ---
 local main = Instance.new("ScreenGui", player.PlayerGui)
 main.Name = "UrasFlyV4"
 main.ResetOnSpawn = false
@@ -98,10 +98,11 @@ function startFlyLoops()
             while tpwalking and char.Parent and hum.Health > 0 do
                 RunService.Heartbeat:Wait()
                 local moveDir = hum.MoveDirection
+                
                 if moveDir.Magnitude > 0 then
-                    -- Mobilde kameranın baktığı yöne gitme (Dikey hareket dahil)
+                    -- Hem PC hem Mobil için Kameranın açısına göre yön belirleme
                     local direction = cam.CFrame:VectorToWorldSpace(cam.CFrame:VectorToObjectSpace(moveDir))
-                    char:TranslateBy(direction * 0.45)
+                    char:TranslateBy(direction * 0.4)
                 end
             end
         end)
@@ -115,53 +116,44 @@ function toggleFly()
     if not hrp or not hum then return end
 
     flying = not flying
-    
     if flying then
         onof.Text = "FLY: AÇIK (H)"
         onof.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        
         hum.PlatformStand = true
         if char:FindFirstChild("Animate") then char.Animate.Disabled = true end
-
-        -- Karakterin dik durmasını ve havada durmasını sağlayan güçler
+        
         local bg = Instance.new("BodyGyro", hrp)
-        bg.Name = "UrasGyro"
-        bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-        bg.P = 9e4
-        bg.CFrame = hrp.CFrame
-
+        bg.Name = "UrasGyro"; bg.maxTorque = Vector3.new(9e9, 9e9, 9e9); bg.P = 9e4
+        
         local bv = Instance.new("BodyVelocity", hrp)
-        bv.Name = "UrasVel"
-        bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
-        bv.Velocity = Vector3.new(0, 0.1, 0)
-
+        bv.Name = "UrasVel"; bv.maxForce = Vector3.new(9e9, 9e9, 9e9); bv.velocity = Vector3.new(0, 0.1, 0)
+        
         startFlyLoops()
-
+        
         task.spawn(function()
             while flying do
                 RunService.RenderStepped:Wait()
                 bg.CFrame = workspace.CurrentCamera.CFrame
             end
+            -- Kapatıldığında temizlik (Havada asılı kalmayı önler)
+            bg:Destroy()
+            bv:Destroy()
         end)
     else
         onof.Text = "FLY: KAPALI (H)"
         onof.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
-        
-        -- Uçmayı tamamen kapat
         tpwalking = false
         hum.PlatformStand = false
         if char:FindFirstChild("Animate") then char.Animate.Disabled = false end
-        
-        -- Karakteri normal düşüş moduna sok
         hum:ChangeState(Enum.HumanoidStateType.GettingUp)
         
-        -- Kalan Body objelerini temizle (Havada asılı kalmayı bu önler)
+        -- Kalan objeleri zorla temizle
         if hrp:FindFirstChild("UrasGyro") then hrp.UrasGyro:Destroy() end
         if hrp:FindFirstChild("UrasVel") then hrp.UrasVel:Destroy() end
     end
 end
 
--- --- KONTROLLER ---
+-- --- BUTONLAR VE TUŞLAR ---
 plus.MouseButton1Click:Connect(function()
     speeds = speeds + 1
     speedLabel.Text = "Hız: " .. speeds
@@ -177,11 +169,8 @@ mine.MouseButton1Click:Connect(function()
 end)
 
 onof.MouseButton1Click:Connect(toggleFly)
-UserInputService.InputBegan:Connect(function(i, g)
-    if not g and i.KeyCode == Enum.KeyCode.H then toggleFly() end
-end)
 
--- Minimize Butonu
+-- Minimize Mekanizması
 local mini = false
 toggleGuiBtn.MouseButton1Click:Connect(function()
     mini = not mini
@@ -195,6 +184,10 @@ toggleGuiBtn.MouseButton1Click:Connect(function()
         onof.Visible = true; speedLabel.Visible = true; plus.Visible = true; mine.Visible = true
         toggleGuiBtn.Text = "_"
     end
+end)
+
+UserInputService.InputBegan:Connect(function(i, g)
+    if not g and i.KeyCode == Enum.KeyCode.H then toggleFly() end
 end)
 
 player.CharacterAdded:Connect(function() 
