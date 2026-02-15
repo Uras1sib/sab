@@ -100,9 +100,18 @@ function startFlyLoops()
                 local moveDir = hum.MoveDirection
                 
                 if moveDir.Magnitude > 0 then
-                    -- Hem PC hem Mobil için Kameranın açısına göre yön belirleme
-                    local direction = cam.CFrame:VectorToWorldSpace(cam.CFrame:VectorToObjectSpace(moveDir))
-                    char:TranslateBy(direction * 0.4)
+                    -- MOBİL ÇÖZÜMÜ:
+                    -- Sadece ileri gitmek yerine, kameranın dikey açısını (LookVector) kullanarak
+                    -- karakteri o yöne doğru TranslateBy ile itiyoruz.
+                    local camCF = cam.CFrame
+                    local forward = camCF.LookVector
+                    local right = camCF.RightVector
+                    
+                    -- Joystick verisini 3D uzaya aktarıyoruz
+                    local relativeMove = camCF:VectorToObjectSpace(moveDir)
+                    local finalDir = (camCF.LookVector * -relativeMove.Z) + (camCF.RightVector * relativeMove.X)
+                    
+                    char:TranslateBy(finalDir * 0.45)
                 end
             end
         end)
@@ -135,9 +144,6 @@ function toggleFly()
                 RunService.RenderStepped:Wait()
                 bg.CFrame = workspace.CurrentCamera.CFrame
             end
-            -- Kapatıldığında temizlik (Havada asılı kalmayı önler)
-            bg:Destroy()
-            bv:Destroy()
         end)
     else
         onof.Text = "FLY: KAPALI (H)"
@@ -145,15 +151,15 @@ function toggleFly()
         tpwalking = false
         hum.PlatformStand = false
         if char:FindFirstChild("Animate") then char.Animate.Disabled = false end
-        hum:ChangeState(Enum.HumanoidStateType.GettingUp)
         
-        -- Kalan objeleri zorla temizle
+        -- Havada asılı kalmayı önleyen temizlik:
         if hrp:FindFirstChild("UrasGyro") then hrp.UrasGyro:Destroy() end
         if hrp:FindFirstChild("UrasVel") then hrp.UrasVel:Destroy() end
+        hum:ChangeState(Enum.HumanoidStateType.GettingUp)
     end
 end
 
--- --- BUTONLAR VE TUŞLAR ---
+-- --- KONTROLLER ---
 plus.MouseButton1Click:Connect(function()
     speeds = speeds + 1
     speedLabel.Text = "Hız: " .. speeds
@@ -170,7 +176,7 @@ end)
 
 onof.MouseButton1Click:Connect(toggleFly)
 
--- Minimize Mekanizması
+-- Minimize Butonu
 local mini = false
 toggleGuiBtn.MouseButton1Click:Connect(function()
     mini = not mini
