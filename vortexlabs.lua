@@ -1,5 +1,6 @@
 --[[
     VORTEX LABS - SECURITY UPDATED v10.1
+    Key Source: keysystem.txt
     Discord: https://discord.gg/zS8KXaHtTE
 ]]
 
@@ -13,6 +14,7 @@ local CoreGui = game:GetService("CoreGui")
 local VORTEX_DATA = {
     Name = "VORTEX LABS",
     Discord = "https://discord.gg/zS8KXaHtTE",
+    -- YENI KEY LINKI BURADA:
     KeyURL = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/keysystem.txt",
     Modes = {
         LTM = {ID = 85621847059032, Source = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/ltm2.lua"},
@@ -95,10 +97,9 @@ local function LaunchVortex()
         local success, rawText = pcall(function() return game:HttpGet(VORTEX_DATA.KeyURL) end)
 
         if success and inputKey ~= "" then
-            -- TAM EŞLEŞME KONTROLÜ (Satır satır kontrol eder)
             local keyFound = false
             for line in rawText:gmatch("[^\r\n]+") do
-                if line == inputKey then
+                if line:gsub("%s+", "") == inputKey then -- Boşlukları temizleyerek kontrol
                     keyFound = true
                     break
                 end
