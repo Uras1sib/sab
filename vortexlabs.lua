@@ -13,7 +13,7 @@ local CoreGui = game:GetService("CoreGui")
 local VORTEX_DATA = {
     Name = "VORTEX LABS",
     Discord = "https://discord.gg/zS8KXaHtTE",
-    KeyURL = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/test.txt",
+    KeyURL = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/keysystem.txt",
     Modes = {
         LTM = {ID = 85621847059032, Source = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/ltm2.lua"},
         DUEL = {ID = 99606176102979, Source = "https://api.luarmor.net/files/v4/loaders/e8c2b7bdfd494b913839f58581a203f9.lua"}
