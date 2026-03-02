@@ -11,7 +11,7 @@ local CoreGui = game:GetService("CoreGui")
 
 local VORTEX_DATA = {
     Name = "VORTEX LABS",
-    Discord = "https://discord.gg/zS8KXaHtTE",
+    Discord = "https://discord.gg/YuudA26QZw",
     KeyURL = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/keysystem.txt",
     Modes = {
         [85621847059032] = "https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/ltm2.lua",
