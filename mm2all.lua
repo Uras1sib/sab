@@ -1,0 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/mm2.lua"))()
+loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-ZaZa-Teleportation-80452"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/spin.lua"))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/godmode.lua"))()
