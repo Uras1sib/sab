@@ -10,7 +10,12 @@ local AimPart = "Head"
 local ToggleKey = Enum.KeyCode.T
 
 -- Kalıcı olarak etkilenmeyecek ve listede gözükmeyecek kişi
-local PermanentSafe = "uraskral7" 
+-- Kalıcı olarak etkilenmeyecek ve listede gözükmeyecek kişiler
+local PermanentSafe = {
+    ["uraskral7"] = true,
+    ["0607enes"] = true,
+    ["ayay3060"] = true,
+}
 
 -- Dinamik Whitelist (Tıklanarak eklenenler)
 local WhitelistedPlayers = {}
